@@ -4,14 +4,19 @@
 
 [Knative Workshop](https://docs.google.com/document/d/1QKjyWAJxZahQFUc8FkM_0gVtgDRUDgJq7zcJLiFjjjw/edit#)export WS_SERVER=http://localhost:8080/ws/feed
 
-
-export BOOTSTRAP_SERVER=localhost:9092
-export BOOTSTRAP_SERVER=my-cluster-kafka-bootstrap:9092
-
+Run Locally:
+```
 export WS_SERVER=ws://stackoverflow-to-ws.default.35.224.5.101.nip.io/questions
 export BOOTSTRAP_SERVER=localhost:9092
 export KAFKA_TOPIC=stackoverflow-questions
 export STORE_KAFKA=true
+```
+
+Run in Knative:
+```
+export BOOTSTRAP_SERVER=my-cluster-kafka-bootstrap:9092
+```
+
 
 ./mvnw spring-boot:run
 
