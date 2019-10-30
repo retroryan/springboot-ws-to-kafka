@@ -4,6 +4,8 @@
 
 [Knative Workshop](https://docs.google.com/document/d/1QKjyWAJxZahQFUc8FkM_0gVtgDRUDgJq7zcJLiFjjjw/edit#)export WS_SERVER=http://localhost:8080/ws/feed
 
+[Kafka Code Adopted from](https://github.com/reactor/reactor-kafka)
+
 Run Locally:
 ```
 export WS_SERVER=ws://stackoverflow-to-ws.default.35.224.5.101.nip.io/questions

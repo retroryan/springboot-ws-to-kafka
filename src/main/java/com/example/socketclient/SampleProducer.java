@@ -17,21 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * Sample producer application using Reactive API for Kafka.
- * To run sample producer
- * <ol>
- *   <li> Start Zookeeper and Kafka server
- *   <li> Update {@link #BOOTSTRAP_SERVERS} and {@link #TOPIC} if required
- *   <li> Create Kafka topic {@link #TOPIC}
- *   <li> Run {@link SampleProducer} as Java application with all dependent jars in the CLASSPATH (eg. from IDE).
- *   <li> Shutdown Kafka server and Zookeeper when no longer required
- * </ol>
- */
 public class SampleProducer {
 
     private static final Logger log = LoggerFactory.getLogger(SampleProducer.class.getName());
@@ -68,6 +55,7 @@ public class SampleProducer {
     }
 
     AtomicInteger messageKey = new AtomicInteger();
+
     public void sendMessages(String topic, String message) throws InterruptedException {
         sender.<Integer>send(Flux.range(1, 1)
                 .map(i -> SenderRecord.create(new ProducerRecord<>(topic, messageKey.getAndIncrement(), message), i)))
@@ -87,12 +75,4 @@ public class SampleProducer {
         sender.close();
     }
 
-    public static void NOT_main(String[] args) throws Exception {
-        int count = 20;
-        CountDownLatch latch = new CountDownLatch(count);
-        SampleProducer producer = new SampleProducer(BOOTSTRAP_SERVERS);
-        //producer.sendMessages(TOPIC, count, latch);
-        latch.await(10, TimeUnit.SECONDS);
-        producer.close();
-    }
 }

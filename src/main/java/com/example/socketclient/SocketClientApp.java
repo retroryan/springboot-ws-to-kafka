@@ -1,7 +1,6 @@
 package com.example.socketclient;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -28,26 +27,20 @@ public class SocketClientApp {
     private final int NUM_CLIENTS = 1;
     private final int MAX_EVENTS = 25;
 
-
-    //@Value("${app.client.url:http://stackoverflow-to-ws.default.35.224.5.101/questions/}")
-    @Value("${app.client.url:http://localhost:8080/ws/feed}")
-    private String uriString;
-
     private static String ENV_URI = System.getenv("WS_SERVER");
     private static boolean STORE_KAFKA = Boolean.parseBoolean(System.getenv("STORE_KAFKA"));
 
-    URI getURI(String uri) {
+    URI getURI() {
         try {
             return new URI(ENV_URI);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
     Mono<Void> wsConnectNetty(SampleProducer producer) {
-        URI uri = getURI(uriString);
+        URI uri = getURI();
         log.info("Connecting to URI:" + uri);
         return new ReactorNettyWebSocketClient().execute(uri,
                 session -> session
@@ -74,30 +67,22 @@ public class SocketClientApp {
                 producer.sendMessages(TOPIC, txt);
                 log.info(" Message written to kafka " + session.getId() + " -> " + txt);
 
-            }
-            else  {
+            } else {
                 log.info(session.getId() + " -> " + txt);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Bean
     ApplicationRunner appRunner() {
-
         log.info("appRunner creating producer with STORE_KAFKA: " + STORE_KAFKA);
-
         SampleProducer producer = null;
         if (STORE_KAFKA) {
             producer = new SampleProducer(SampleProducer.BOOTSTRAP_SERVERS);
         }
-
         SampleProducer finalProducer = producer;
-
-        log.info("app runner producer created");
-
         return args -> {
             final CountDownLatch latch = new CountDownLatch(NUM_CLIENTS);
 
