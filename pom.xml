@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>spring-sockets-client</artifactId>
+    <artifactId>springboot-ws-to-kafka</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>spring-websocket-client-example</name>
-    <description>Demo WebClient</description>
+    <name>springboot-ws-to-kafka</name>
+    <description>Spring Boot WebSocket to Kafka</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -51,7 +51,7 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.5</version>
         </dependency>
-        
+
     </dependencies>
 
     <build>
